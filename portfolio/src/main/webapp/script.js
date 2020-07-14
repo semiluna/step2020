@@ -15,14 +15,12 @@
 /**
  * Adds a random greeting to the page.
  */
-function addRandomGreeting() {
-  const greetings =
-      ['Salutare Lume!', 'Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!', 'Out of order? I\'ll show you out of order!', 'I absolutely love Nina Simone.'];
-
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+function showInfo(number) {
+  var elementId = "info-" + number;
+  console.log(elementId);
+  var infoDiv = document.getElementById(elementId);
+  console.log("Button has been pressed. Display of element is " + infoDiv.style.display);
+  if (infoDiv.style.display === "none") {
+    infoDiv.style.display = "block";
+  }
 }

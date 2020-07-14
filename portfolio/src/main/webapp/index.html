@@ -7,18 +7,48 @@
     <script src="script.js"></script>
   </head>
   <body>
-    <div id="wrapper">
+    <div class="wrapper">
       <div id="img-title">
         <img src="/images/antonia-1.JPG" height="200"/>
       </div>
       <div id="txt-title">
         <h1>Antonia's Portfolio</h1>
       </div>
-      <!--
-      <p>This is my portfolio.</p>
-      <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div> -->
+    </div>
+
+    <div class="wrapper">
+      <div class="info-container">
+        <h3>Education</h3>
+        <button id="div-1" onclick="showInfo(1)">Click for more info!</button>
+        <div id="info-1" style="display: none">
+          <h4>I graduated a computer science oriented high school in Bucharest, Romania. I am currently a student 
+          at the University of Cambridge, in the UK. My degree is *surprise* Computer Science and I absolutely love it.
+          </h4>
+        </div>
+      </div>
+      <div class="info-container">
+        <h3>Hobbies</h3>
+        <button id="div-2" onclick="showInfo(2)">Click here for cool stuff!</button>
+        <div id="info-2" style="display: none">
+          <h4>My hobbies include photography, reading and watching old movies with Al Pacino. I have two film cameras
+            and I plan on buying even more precious second-hand cameras. If you scroll down you can see a gallery of the pictures 
+            I've taken in the last couple of months.
+          </h4>
+        </div>
+      </div>
+    </div>
+
+    <div style="background-color: #f2c6b4; font-family: monospace; padding: 20px; margin-top: 10px;">
+      <h2 style="padding: 10px;">Film gallery</h2>
+      <div class="photo">
+        <img src="images/antonia-3.JPG" height="150" />
+        <img src="images/antonia-2.JPG" height="150" />
+        <img src="images/antonia-4.JPG" height="150" />
+        <img src="images/antonia-5.JPG" height="150" />
+        <img src="images/antonia-6.JPG" height="150" />
+        <img src="images/antonia-7.JPG" height="150" />
+      </div>
+
     </div>
   </body>
 </html>
