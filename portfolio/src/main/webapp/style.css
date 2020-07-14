@@ -3,8 +3,29 @@
   padding:20px;
   width: 650px;
   font-family: monospace;
-  background-color: beige;
+  background-color: #99e1e5;
   border-radius: 10px;
+}
+
+#wrapper {
+    display: flex;
+    background-color: #f3e8cb;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+#img-title {
+    flex: 1;
+    margin: 10px;
+    border-radius: 30px;
+}
+
+#txt-title {
+    flex: 2;
+    font-family: monospace;
+    margin: 10px;
 }
 
 #greeting-container {
