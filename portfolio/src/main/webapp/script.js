@@ -22,5 +22,7 @@ function showInfo(number) {
   console.log("Button has been pressed. Display of element is " + infoDiv.style.display);
   if (infoDiv.style.display === "none") {
     infoDiv.style.display = "block";
+  } else {
+    infoDiv.style.dislay = "none";
   }
 }

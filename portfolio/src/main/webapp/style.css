@@ -3,12 +3,12 @@
   padding:20px;
   width: 650px;
   font-family: monospace;
-  background-color: #99e1e5;
+  background-color: #fbafaf;
   border-radius: 10px;
 }
 
 .wrapper {
-    display: flex;
+    display: flex !important;
     background-color: hsl(183, 59%, 75%);
     flex-direction: row;
     justify-content: center;
@@ -20,11 +20,10 @@
 #img-title {
     flex: 1;
     margin: 10px;
-    border-radius: 30px;
 }
 
 #txt-title {
-    flex: 2;
+    flex: 1;
     font-family: monospace;
     margin: 10px;
     align-self: center;
@@ -41,7 +40,7 @@
   margin: 10px;
   text-align: center;
   align-items: stretch;
-  background: #fbafaf;
+  
 }
 
 .photo {
