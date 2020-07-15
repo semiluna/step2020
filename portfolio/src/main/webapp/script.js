@@ -12,17 +12,24 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
 function showInfo(number) {
   var elementId = "info-" + number;
   console.log(elementId);
   var infoDiv = document.getElementById(elementId);
+  var buttonDiv = document.getElementById("div-" + number);
+
   console.log("Button has been pressed. Display of element is " + infoDiv.style.display);
+  
   if (infoDiv.style.display === "none") {
     infoDiv.style.display = "block";
-  } else {
-    infoDiv.style.dislay = "none";
+    buttonDiv.style.display = "none";
   }
+}
+
+function showGreeting() {
+  var greetings = ["Hello!", "Buna ziua!", "Buenos Dias!", "Buongiorno!", "Bonjour!", "こんにちは!", "Χαίρετε!", "Dzień dobry!"];
+  var greetElement = document.getElementById("greeting");
+
+  var x = Math.floor(Math.random() * 10) % 8;
+  greetElement.innerText = greetings[x];
 }

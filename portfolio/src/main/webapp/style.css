@@ -27,6 +27,7 @@
     font-family: monospace;
     margin: 10px;
     align-self: center;
+    align-items: stretch;
 }
 
 #greeting-container {
