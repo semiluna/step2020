@@ -57,3 +57,24 @@
   flex-wrap: wrap;
   justify-content: space-around;
 }
+
+.button {
+  padding: 10px;
+  background-color:transparent;
+  text-align: center;
+  border-color: #fbafaf;
+  border-style: solid;
+  font-size: 16px;
+  text-decoration: none;
+  font-family: monospace;
+  transition-duration: 0.4s;
+}
+
+.button:hover{
+  background-color:#f2c6b4;
+  color: black;
+}
+
+.a {
+  text-decoration: none;
+}

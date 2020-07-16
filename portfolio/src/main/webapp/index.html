@@ -5,7 +5,7 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body>
+  <body style="background-color: hsl(183, 59%, 75%);">
     <div class="wrapper">
       <div id="img-title">
         <img src="/images/antonia-1.JPG" style="border-radius:100%; float:right" height="200"/>
@@ -18,7 +18,8 @@
     <div class="wrapper">
       <div class="info-container"  style="background: #f3e8cb">
         <h3>Education</h3>
-        <button id="div-1" onclick="showInfo(1)">Click for more info!</button>
+        <button id="div-1" class="button"
+          onclick="showInfo(1)">Click for more info!</button>
         <div id="info-1" style="display: none">
           <h4>I graduated a <a href="https://goo.gl/maps/jBF3cAHwr24ABEuGA">computer science oriented high school</a> in Bucharest, Romania. I am currently a student 
           at the University of Cambridge, in the UK. My degree is in Computer Science and I just finished my first year there.
@@ -27,7 +28,8 @@
       </div>
       <div class="info-container" style="background: #f3e8cb">
         <h3>Hobbies</h3>
-        <button id="div-2" onclick="showInfo(2)">Click here for cool stuff!</button>
+        <button id="div-2" class="button" 
+          onclick="showInfo(2)">Click here for cool stuff!</button>
         <div id="info-2" style="display: none">
           <h4>My hobbies include photography, reading and watching old movies with Al Pacino. I have two film cameras
             and I plan on buying even more precious second-hand cameras. If you scroll down you can see a gallery of the pictures 
@@ -92,16 +94,9 @@
         <h3><a href="https://www.linkedin.com/in/antonia-boca/">My LinkedIn account</a></h3>
       </div>
     </div>
-    <div style="background-color: #f2c6b4; font-family: monospace; padding: 20px; margin-top: 10px;">
-      <h2 style="padding: 10px;">Film gallery</h2>
-      <div class="photo">
-        <img src="images/antonia-3.JPG" height="150" />
-        <img src="images/antonia-2.JPG" height="150" />
-        <img src="images/antonia-4.JPG" height="150" />
-        <img src="images/antonia-5.JPG" height="150" />
-        <img src="images/antonia-6.JPG" height="150" />
-        <img src="images/antonia-7.JPG" height="150" />
-      </div>
+
+    <div class="wrapper" style="padding: 30px;">
+      <button class="button"><a class="a" href="/gallery.html">Go to gallery</a></button>
     </div>
     <script src="script.js" defer></script>
   </body>
