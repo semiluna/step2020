@@ -44,6 +44,13 @@
   
 }
 
+.experience-container {
+  padding: 20px;
+  flex: 2;
+  font-family: monospace;
+  margin: 10px;
+  text-align: left;
+}
 .photo {
   display: flex;
   flex-direction: row;
