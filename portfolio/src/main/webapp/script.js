@@ -33,3 +33,46 @@ function showGreeting() {
   var x = Math.floor(Math.random() * 10) % 8;
   greetElement.innerText = greetings[x];
 }
+
+window.onload = function() {
+  
+  /*
+  function showFavourites(elementId) {
+    console.log("Show element with ID " + elementId);
+    var infoDiv = document.getElementById(elementId);
+    infoDiv.style.display = "block";
+  }
+
+  function hideFavourites(elementId) {
+    console.log("Hide element with ID " + elementId);
+    var infoDiv = document.getElementById(elementId);
+    infoDiv.style.display = "none";
+  }*/
+
+  for (var i = 1; i <= 3; i++) {
+    var elementId = document.getElementById("scroll-" + i);
+
+    elementId.addEventListener("mouseover", function(event) {
+      console.log("Enter the Event Listener");
+
+      var number = event.target.id[event.target.id.length - 1];
+      var childId = document.getElementById("more-" + number);
+      childId.style.display = "block";
+    });
+    elementId.addEventListener("mouseout", function(event) {
+      var number = event.target.id[event.target.id.length - 1];
+      var childId = document.getElementById("more-" + number);
+      childId.style.display = "none";
+    });
+
+    var headerId = document.getElementById("h-" + i);
+
+    headerId.addEventListener("mouseover", function(event) {
+      console.log("Enter child listener");
+
+      var number = event.target.id[event.target.id.length - 1];
+      var divId = document.getElementById("more-" + number);
+      divId.style.display = "block";
+    });
+  }
+}
