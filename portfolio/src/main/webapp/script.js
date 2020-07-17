@@ -13,56 +13,30 @@
 // limitations under the License.
 
 function showInfo(number) {
-  var elementId = "info-" + number;
-  console.log(elementId);
-  var infoDiv = document.getElementById(elementId);
-  var buttonDiv = document.getElementById("div-" + number);
+  let elementId = "info-" + number;
+  let infoDiv = document.getElementById(elementId);
+  let buttonDiv = document.getElementById("div-" + number);
 
-  console.log("Button has been pressed. Display of element is " + infoDiv.style.display);
-  
-  if (infoDiv.style.display === "none") {
-    infoDiv.style.display = "block";
-    buttonDiv.style.display = "none";
-  }
-}
-
-function showGreeting() {
-  var greetings = ["Hello!", "Buna ziua!", "Buenos Dias!", "Buongiorno!", "Bonjour!", "こんにちは!", "Χαίρετε!", "Dzień dobry!"];
-  var greetElement = document.getElementById("greeting");
-
-  var x = Math.floor(Math.random() * 10) % 8;
-  greetElement.innerText = greetings[x];
+  infoDiv.style.display = "block";
+  buttonDiv.style.display = "none";
 }
 
 window.onload = function() {
-  
-  /*
-  function showFavourites(elementId) {
-    console.log("Show element with ID " + elementId);
-    var infoDiv = document.getElementById(elementId);
-    infoDiv.style.display = "block";
-  }
+  let i = 1;
+  while (document.getElementById("h-" + i) !== null) {
+    let elementId = document.getElementById("h-" + i);
 
-  function hideFavourites(elementId) {
-    console.log("Hide element with ID " + elementId);
-    var infoDiv = document.getElementById(elementId);
-    infoDiv.style.display = "none";
-  }*/
-
-  for (var i = 1; i <= 3; i++) {
-    var elementId = document.getElementById("scroll-" + i);
-
-    elementId.addEventListener("mouseenter", function(event) {
-      console.log("Enter the Event Listener");
-
-      var number = event.target.id[event.target.id.length - 1];
-      var childId = document.getElementById("more-" + number);
-      childId.style.display = "block";
+    elementId.addEventListener("click", function() {
+      let number = this.id[this.id.length - 1];
+      let childId = document.getElementById("more-" + number);
+      childDisplay = childId.style.display;
+      if (childDisplay !== "block") {
+        childId.style.display = "block";
+      } else {
+        childId.style.display = "none";
+      }
     });
-    elementId.addEventListener("mouseleave", function(event) {
-      var number = event.target.id[event.target.id.length - 1];
-      var childId = document.getElementById("more-" + number);
-      childId.style.display = "none";
-    });
+
+    i++;
   }
 }

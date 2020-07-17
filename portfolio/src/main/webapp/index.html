@@ -5,32 +5,32 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body style="background-color: hsl(183, 59%, 75%);">
+  <body class="body-1">
     <div class="wrapper">
       <div id="img-title">
-        <img src="/images/antonia-1.JPG" style="border-radius:100%; float:right" height="200"/>
+        <img id="profile-img" src="/images/antonia-1.JPG"/>
       </div>
       <div id="txt-title">
-        <h1 style="float: left">Antonia's Portfolio</h1>
+        <h1 id="h1-title">Antonia's Portfolio</h1>
       </div>
     </div>
 
     <div class="wrapper">
-      <div class="info-container"  style="background: #f3e8cb">
+      <div id="info-container-1" class="info-container">
         <h3>Education</h3>
         <button id="div-1" class="button"
           onclick="showInfo(1)">Click for more info!</button>
-        <div id="info-1" style="display: none">
+        <div id="info-1">
           <h4>I graduated a <a href="https://goo.gl/maps/jBF3cAHwr24ABEuGA">computer science oriented high school</a> in Bucharest, Romania. I am currently a student 
           at the University of Cambridge, in the UK. My degree is in Computer Science and I just finished my first year there.
           </h4>
         </div>
       </div>
-      <div class="info-container" style="background: #f3e8cb">
+      <div id="info-container-2" class="info-container">
         <h3>Hobbies</h3>
         <button id="div-2" class="button" 
           onclick="showInfo(2)">Click here for cool stuff!</button>
-        <div id="info-2" style="display: none">
+        <div id="info-2">
           <h4>My hobbies include photography, reading and watching old movies with Al Pacino. I have two film cameras
             and I plan on buying even more precious second-hand cameras. If you scroll down you can see a gallery of the pictures 
             I've taken in the last couple of months.
@@ -40,9 +40,9 @@
     </div>
     
     <div class="wrapper">
-      <div id="scroll-1" class="info-container" style="background: #fbafaf">
-        <h3 id="h-1">Favourite foods</h3>
-        <div id="more-1" style="display: none">
+      <div id="scroll-1" class="info-container">
+        <h3 id="h-1"><u>Favourite foods</u></h3>
+        <div id="more-1">
           <p>Sushi</p>
           <p>Anything japanese, really</p>
           <p>Quesadilla</p>
@@ -50,9 +50,9 @@
         </div>
       </div>
 
-      <div id="scroll-2" class="info-container" style="background: #fbafaf">
-        <h3 id="h-2">Favourite movies</h3>
-        <div id="more-2"style="display:none">
+      <div id="scroll-2" class="info-container">
+        <h3 id="h-2"><u>Favourite movies</u></h3>
+        <div id="more-2">
             <p>Call me by your name</p>
             <p>Into the wild</p>
             <p>Scent of a Woman</p>
@@ -61,9 +61,9 @@
         </div>
       </div>
 
-      <div id="scroll-3" class="info-container" style="background: #fbafaf">
-        <h3 id="h-3">Countries I want to travel to</h3>
-        <div id="more-3" style="display:none">
+      <div id="scroll-3" class="info-container">
+        <h3 id="h-3"><u>Countries I want to travel to</u></h3>
+        <div id="more-3">
             <p>Argentina</p>  
             <p>Puerto Rico</p>
             <p>Thailand</p>
@@ -74,7 +74,7 @@
     </div>
 
     <div class="wrapper">
-      <div class="experience-container" style="background: #f3e8cb">
+      <div class="experience-container">
         <h2>Experience</h2>
           <p>I've started studying algorithms and data structures in C++ 7 years ago.</p>
           <p>In 2018 I decided that I want to discover more about Computer Science, 
@@ -88,14 +88,14 @@
             my degree, and I really hope the pandemic won't affect my studies.
           </p>
       </div>
-      <div class="info-container" style="align-self: center; border-radius: 100%; background: #f3e8cb"> 
+      <div id="profiles" class="info-container"> 
         <h2>My profiles</h2>
         <h3><a href="https://github.com/semiluna">My Github account</a></h3>
         <h3><a href="https://www.linkedin.com/in/antonia-boca/">My LinkedIn account</a></h3>
       </div>
     </div>
 
-    <div class="wrapper" style="padding: 30px;">
+    <div class="wrapper" id="gallery-wrapper">
       <button class="button"><a class="a" href="/gallery.html">Go to gallery</a></button>
     </div>
     <script src="script.js" defer></script>

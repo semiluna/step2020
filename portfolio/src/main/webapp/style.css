@@ -1,10 +1,9 @@
-#content {
-  margin: 40px;
-  padding:20px;
-  width: 650px;
-  font-family: monospace;
-  background-color: #fbafaf;
-  border-radius: 10px;
+.body-1 {
+  background-color: hsl(183, 59%, 75%);;
+}
+
+.body-2 {
+  background-color: #f2c6b4;;
 }
 
 .wrapper {
@@ -13,13 +12,22 @@
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-    align-items: stretch;
 
 }
 
 #img-title {
     flex: 1;
     margin: 10px;
+}
+
+#profile-img {
+  border-radius:100%; 
+  float:right;
+  height:200px;
+}
+
+#h1-title {
+  float: left;
 }
 
 #txt-title {
@@ -30,18 +38,73 @@
     align-items: stretch;
 }
 
-#greeting-container {
-  margin-top: 20px;
-}
-
 .info-container {
   padding: 10px;
   flex: 1;
   font-family: monospace;
   margin: 10px;
   text-align: center;
-  align-items: stretch;
   
+}
+
+#info-container-1 {
+  background: #f3e8cb;
+}
+
+#info-container-2 {
+  background: #f3e8cb;
+}
+
+#div-1 {
+  align-self: center;
+}
+
+#info-1 {
+  display: none;
+}
+
+#div-2 {
+  align-self: center;
+}
+
+#info-2 {
+  display: none;
+}
+
+#scroll-1 {
+  background:#fbafaf;
+}
+
+#more-1 {
+  display: none;
+}
+
+#h-1 {
+  cursor: pointer;
+}
+
+#scroll-2 {
+  background: #fbafaf;
+}
+
+#h-2 {
+  cursor: pointer;
+}
+
+#more-2 {
+  display: none;
+}
+
+#scroll-3 {
+  background: #fbafaf;
+}
+
+#h-3 {
+  cursor: pointer;
+}
+
+#more-3 {
+  display: none;
 }
 
 .experience-container {
@@ -50,12 +113,35 @@
   font-family: monospace;
   margin: 10px;
   text-align: left;
+  background: #f3e8cb;
 }
-.photo {
+
+#profiles {
+  align-self: center; 
+  border-radius: 100%; 
+  background: #f3e8cb;
+}
+
+#gallery-wrapper {
+  padding: 30px;
+}
+
+.photos {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: space-around;
+}
+
+.gallery-web {
+  text-align: center; 
+  font-family: monospace; 
+  padding: 20px; 
+  margin-top: 10px;
+}
+
+#title-gallery {
+  padding: 10px;
 }
 
 .button {
