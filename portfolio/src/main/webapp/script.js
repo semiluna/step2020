@@ -26,7 +26,5 @@ const hideables = document.querySelectorAll(".info-container-hideable");
 hideables.forEach(hideable => {
   const h3 = hideable.querySelector('h3');
   const ul = hideable.querySelector('ul');
-  
-  ul.classList.add("hidden");
   h3.addEventListener('click', () => ul.classList.toggle("hidden"));
 });
