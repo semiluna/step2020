@@ -44,7 +44,14 @@
   font-family: monospace;
   margin: 10px;
   text-align: center;
-  
+}
+
+.info-container-hideable {
+  padding: 10px;
+  flex: 1;
+  font-family: monospace;
+  margin: 10px;
+  text-align: center;
 }
 
 #info-container-1 {
@@ -76,7 +83,8 @@
 }
 
 #more-1 {
-  display: none;
+  list-style-type: none;
+  padding: 0px;
 }
 
 #h-1 {
@@ -92,7 +100,8 @@
 }
 
 #more-2 {
-  display: none;
+  list-style-type: none;
+  padding: 0px;
 }
 
 #scroll-3 {
@@ -104,7 +113,8 @@
 }
 
 #more-3 {
-  display: none;
+  list-style-type: none;
+  padding: 0px;
 }
 
 .experience-container {
@@ -163,4 +173,8 @@
 
 .a {
   text-decoration: none;
+}
+
+.hidden {
+  display: none;
 }

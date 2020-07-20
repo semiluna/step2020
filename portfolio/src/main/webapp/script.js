@@ -21,22 +21,12 @@ function showInfo(number) {
   buttonDiv.style.display = "none";
 }
 
-window.onload = function() {
-  let i = 1;
-  while (document.getElementById("h-" + i) !== null) {
-    let elementId = document.getElementById("h-" + i);
+const hideables = document.querySelectorAll(".info-container-hideable");
 
-    elementId.addEventListener("click", function() {
-      let number = this.id[this.id.length - 1];
-      let childId = document.getElementById("more-" + number);
-      childDisplay = childId.style.display;
-      if (childDisplay !== "block") {
-        childId.style.display = "block";
-      } else {
-        childId.style.display = "none";
-      }
-    });
-
-    i++;
-  }
-}
+hideables.forEach(hideable => {
+  const h3 = hideable.querySelector('h3');
+  const ul = hideable.querySelector('ul');
+  
+  ul.classList.add("hidden");
+  h3.addEventListener('click', () => ul.classList.toggle("hidden"));
+});
