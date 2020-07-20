@@ -28,3 +28,9 @@ hideables.forEach(hideable => {
   const ul = hideable.querySelector('ul');
   h3.addEventListener('click', () => ul.classList.toggle("hidden"));
 });
+
+async function getGreeting() {
+    const response = await fetch("/data");
+    const quote = await response.text();
+    document.getElementById("quote-container").innerHTML = quote;
+}
