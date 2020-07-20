@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-/**
- * Adds a random greeting to the page.
- */
-function addRandomGreeting() {
-  const greetings =
-      ['Hello world!', '¡Hola Mundo!', '你好，世界！', 'Bonjour le monde!'];
+function showInfo(number) {
+  let elementId = "info-" + number;
+  let infoDiv = document.getElementById(elementId);
+  let buttonDiv = document.getElementById("div-" + number);
 
-  // Pick a random greeting.
-  const greeting = greetings[Math.floor(Math.random() * greetings.length)];
-
-  // Add it to the page.
-  const greetingContainer = document.getElementById('greeting-container');
-  greetingContainer.innerText = greeting;
+  infoDiv.style.display = "block";
+  buttonDiv.style.display = "none";
 }
+
+const hideables = document.querySelectorAll(".info-container-hideable");
+
+hideables.forEach(hideable => {
+  const h3 = hideable.querySelector('h3');
+  const ul = hideable.querySelector('ul');
+  h3.addEventListener('click', () => ul.classList.toggle("hidden"));
+});

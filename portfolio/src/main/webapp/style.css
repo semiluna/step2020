@@ -1,9 +1,180 @@
-#content {
-  margin-left: auto;
-  margin-right: auto;
-  width: 650px;
+.body-1 {
+  background-color: hsl(183, 59%, 75%);;
 }
 
-#greeting-container {
-  margin-top: 20px;
+.body-2 {
+  background-color: #f2c6b4;;
+}
+
+.wrapper {
+    display: flex !important;
+    background-color: hsl(183, 59%, 75%);
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+
+}
+
+#img-title {
+    flex: 1;
+    margin: 10px;
+}
+
+#profile-img {
+  border-radius:100%; 
+  float:right;
+  height:200px;
+}
+
+#h1-title {
+  float: left;
+}
+
+#txt-title {
+    flex: 1;
+    font-family: monospace;
+    margin: 10px;
+    align-self: center;
+    align-items: stretch;
+}
+
+.info-container {
+  padding: 10px;
+  flex: 1;
+  font-family: monospace;
+  margin: 10px;
+  text-align: center;
+}
+
+.info-container-hideable {
+  padding: 10px;
+  flex: 1;
+  font-family: monospace;
+  margin: 10px;
+  text-align: center;
+}
+
+#info-container-1 {
+  background: #f3e8cb;
+}
+
+#info-container-2 {
+  background: #f3e8cb;
+}
+
+#div-1 {
+  align-self: center;
+}
+
+#info-1 {
+  display: none;
+}
+
+#div-2 {
+  align-self: center;
+}
+
+#info-2 {
+  display: none;
+}
+
+#scroll-1 {
+  background:#fbafaf;
+}
+
+#more-1 {
+  list-style-type: none;
+  padding: 0px;
+}
+
+#h-1 {
+  cursor: pointer;
+}
+
+#scroll-2 {
+  background: #fbafaf;
+}
+
+#h-2 {
+  cursor: pointer;
+}
+
+#more-2 {
+  list-style-type: none;
+  padding: 0px;
+}
+
+#scroll-3 {
+  background: #fbafaf;
+}
+
+#h-3 {
+  cursor: pointer;
+}
+
+#more-3 {
+  list-style-type: none;
+  padding: 0px;
+}
+
+.experience-container {
+  padding: 20px;
+  flex: 2;
+  font-family: monospace;
+  margin: 10px;
+  text-align: left;
+  background: #f3e8cb;
+}
+
+#profiles {
+  align-self: center; 
+  border-radius: 100%; 
+  background: #f3e8cb;
+}
+
+#gallery-wrapper {
+  padding: 30px;
+}
+
+.photos {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.gallery-web {
+  text-align: center; 
+  font-family: monospace; 
+  padding: 20px; 
+  margin-top: 10px;
+}
+
+#title-gallery {
+  padding: 10px;
+}
+
+.button {
+  padding: 10px;
+  background-color:transparent;
+  text-align: center;
+  border-color: #fbafaf;
+  border-style: solid;
+  font-size: 16px;
+  text-decoration: none;
+  font-family: monospace;
+  transition-duration: 0.4s;
+}
+
+.button:hover{
+  background-color:#f2c6b4;
+  color: black;
+}
+
+.a {
+  text-decoration: none;
+}
+
+.hidden {
+  display: none;
 }
