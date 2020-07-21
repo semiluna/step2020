@@ -5,7 +5,7 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body class="body-1" onload="getGreeting()">
+  <body class="body-1" onload="getComments()">
     <div class="wrapper">
       <div id="img-title">
         <img id="profile-img" src="/images/antonia-1.JPG"/>
@@ -13,12 +13,6 @@
       <div id="txt-title">
         <h1 id="h1-title">Antonia's Portfolio</h1>
       </div>
-    </div>
-
-    <div class="wrapper">
-        <div id="quote-container">
-            <p>Fetching greeting...</p>
-        </div>
     </div>
     
     <div class="wrapper">
@@ -106,8 +100,20 @@
     </div>
 
     <div class="wrapper">
-      <div id="comments-container" onload="getComments()">
-        <p>Fetching comments...</p>
+      <div>
+        <h2>Add comments!</h2>
+
+        <form action="/data" method="POST">
+          <label for="name">Name:</label><br>
+          <input type="text" id="name" name="name"><br>
+          <label for="comment">Comment:</label><br>
+          <input type="text" id="comment" name="comment">
+          <input type="submit" value="Submit">
+        </form>
+
+        <div id="comments-container">
+          <p>No comments fetched</p>
+        </div>
       </div>
     </div>
     <script src="script.js" defer></script>

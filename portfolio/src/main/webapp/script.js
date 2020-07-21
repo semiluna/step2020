@@ -29,17 +29,13 @@ hideables.forEach(hideable => {
   h3.addEventListener('click', () => ul.classList.toggle("hidden"));
 });
 
-async function getGreeting() {
-    const response = await fetch("/data");
-    const quote = await response.text();
-    console.log(quote);
-    document.getElementById("quote-container").innerHTML = quote;
-}
-
 //add hard-coded elements to the page
-function getComments() {
-  const comments = "<ul><li>Antonia said: Hope you like my portfolio!</li> \
-              <li>Alex said: I like the color palette.</li> \
-              <li>Jo said: What's your favourite pizza? </li> </ul>";  
-  document.getElementById("comments-container").innerHTML = comments;
+async function getComments() {
+  console.log("I am in getComments");
+  const response = await fetch("/data");
+  const comments = await response.text();
+  
+  console.log("List of comments: " + comments);
+
+  document.getElementById("comments-container").innerHTML = "<p>" + comments + "</p>";
 }
