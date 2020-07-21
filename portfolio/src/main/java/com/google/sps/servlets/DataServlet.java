@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -43,6 +46,13 @@ public class DataServlet extends HttpServlet {
     String name = getParameter(request, "name", "Anonymus");
     String comment = getParameter(request, "comment", "[Empty comment]");
 
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+    Entity commentEntity = new Entity("Comment");
+    commentEntity.setProperty("name", name);
+    commentEntity.setProperty("text", comment);
+
+    datastore.put(commentEntity);
+    
     ArrayList<String> comArray = new ArrayList<String>();
     comArray.add(name);
     comArray.add(comment);
