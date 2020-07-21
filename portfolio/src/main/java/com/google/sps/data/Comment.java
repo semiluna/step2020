@@ -5,7 +5,7 @@ public class Comment {
     private final String text;
     private final Long id;
 
-    Comment(String name, String text, Long id) {
+    public Comment(String name, String text, Long id) {
         this.name = name;
         this.text = text;
         this.id = id;

@@ -17,10 +17,14 @@ package com.google.sps.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.google.sps.data.Comment;
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.SortDirection;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,14 +33,28 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns comments on portfolio */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private final ArrayList<String> commentArray = new ArrayList<String>();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType("text/html;");
 
+    ArrayList<Comment> comArray = new ArrayList<Comment>();
+    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+
+    Query query = new Query("Comment").addSort("name", SortDirection.DESCENDING);
+
+    PreparedQuery results = datastore.prepare(query);
+    for (Entity entity : results.asIterable()) {
+      String entityName = (String) entity.getProperty("name");
+      String entityText = (String) entity.getProperty("text");
+      Long entityID = (Long) entity.getProperty("id");
+
+      Comment databaseComment = new Comment(entityName, entityText, entityID);
+
+      comArray.add(databaseComment);
+    }
     Gson myGson = new Gson();
-    String json = myGson.toJson(commentArray);
+    String json = myGson.toJson(comArray);
 
     response.getWriter().println(json);
   }
@@ -52,15 +70,6 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("text", comment);
 
     datastore.put(commentEntity);
-    
-    ArrayList<String> comArray = new ArrayList<String>();
-    comArray.add(name);
-    comArray.add(comment);
-
-    Gson myGson = new Gson();
-    String text = myGson.toJson(comArray);
-
-    this.commentArray.add(text);
 
     response.sendRedirect("/");
   }
