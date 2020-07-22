@@ -62,8 +62,12 @@ public class DataServlet extends HttpServlet {
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = getParameter(request, "name", "Anonymus");
-    String comment = getParameter(request, "comment", "[Empty comment]");
+    String comment = getParameter(request, "comment", "");
 
+    if (comment == "" || comment == null) {
+      response.sendRedirect("/");
+    }
+    
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
