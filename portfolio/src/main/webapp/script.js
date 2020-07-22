@@ -35,10 +35,16 @@ async function getComments() {
   const text = await response.text();
   const comments = JSON.parse(text);
   
-  const formattedComments = comments.map((comment) => {
+  const escapedComments = comments.map((comment) => {
+    const escapedName = convertHTML(comment.name);
+    const escapedText = convertHTML(comment.text);
+    return {name: escapedName, text: escapedText, date: comment.date};
+  });
+
+  const formattedComments = escapedComments.map((comment) => {
     return `<div class="comment">
               <h4 class="comment-name">
-                ${comment.name} on ${comment.date}
+                ${comment.name} ${comment.date !== undefined ? "on " + comment.date : ""}
               </h4>
               <p>${comment.text}</p>
             </div>`
@@ -47,4 +53,23 @@ async function getComments() {
   const htmlElement = formattedComments.join('');
 
   document.getElementById("comments-container").innerHTML = htmlElement;
+}
+
+function convertHTML(str) {
+  let regex = /[&|<|>|"|']/g;
+  let htmlString = str.replace(regex, function(match){
+    if(match === "&"){
+      return "&amp;";
+    }else if(match === "<"){
+      return "&lt;"
+    }else if(match === ">"){
+      return "&gt;";
+    }else if(match === '"'){
+      return "&quot;";
+    }else{
+      return "&apos;";
+    }
+  });
+      
+  return htmlString;
 }
