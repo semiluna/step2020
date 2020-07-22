@@ -4,7 +4,7 @@
 }
 
 .body-2 {
-  background-color: #f2c6b4;;
+  background-color: #f2c6b4;
 }
 
 .wrapper {
@@ -178,4 +178,39 @@
 
 .hidden {
   display: none;
+}
+
+#comments-container {
+  align-items: stretch;
+}
+
+.comment {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  justify-self:stretch;
+  flex: 1;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.comment-name {
+  background-color: #f2c6b4;
+  padding: 5px;
+  margin: 0px;
+}
+
+#comments-wrapper {
+  display: flex !important;
+  background-color: hsl(183, 59%, 75%);
+  flex-direction: column;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 10px;
+
+}
+
+.comment-form {
+  margin: 10px;
 }

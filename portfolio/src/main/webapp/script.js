@@ -36,10 +36,15 @@ async function getComments() {
   const comments = JSON.parse(text);
   
   const formattedComments = comments.map((comment) => {
-    return `<p>${comment.name} said: ${comment.text}</p>`
+    return `<div class="comment">
+              <h4 class="comment-name">
+                ${comment.name} on ${comment.date}
+              </h4>
+              <p>${comment.text}</p>
+            </div>`
   });
 
-  const htmlElement = `<div>${formattedComments.join('')}</div>`;
+  const htmlElement = formattedComments.join('');
 
   document.getElementById("comments-container").innerHTML = htmlElement;
 }

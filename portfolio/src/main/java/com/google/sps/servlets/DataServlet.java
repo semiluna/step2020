@@ -16,6 +16,7 @@ package com.google.sps.servlets;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.google.sps.data.Comment;
 import com.google.gson.Gson;
@@ -48,8 +49,10 @@ public class DataServlet extends HttpServlet {
       String entityName = (String) entity.getProperty("name");
       String entityText = (String) entity.getProperty("text");
       Long entityID = (Long) entity.getProperty("id");
+      Date date = (Date) entity.getProperty("date");
 
-      Comment databaseComment = new Comment(entityName, entityText, entityID);
+
+      Comment databaseComment = new Comment(entityName, entityText, entityID, date);
 
       comArray.add(databaseComment);
     }
@@ -63,15 +66,17 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     String name = getParameter(request, "name", "Anonymus");
     String comment = getParameter(request, "comment", "");
+    Date createDate = new Date();
 
     if (comment == "" || comment == null) {
       response.sendRedirect("/");
     }
-    
+
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("text", comment);
+    commentEntity.setProperty("date", createDate);
 
     datastore.put(commentEntity);
 

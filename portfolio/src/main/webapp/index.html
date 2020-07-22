@@ -99,21 +99,18 @@
       <button class="button"><a class="a" href="/gallery.html">Go to gallery</a></button>
     </div>
 
-    <div class="wrapper">
-      <div>
-        <h2>Add comments!</h2>
+    <div class="comments-wrapper">
+      <h2 class="comment-form">Add a comment</h2>
 
-        <form action="/data" method="POST">
-          <label for="name">Name:</label><br>
-          <input type="text" id="name" name="name"><br>
-          <label for="comment">Comment:</label><br>
-          <input type="text" id="comment" name="comment">
-          <input type="submit" value="Submit">
-        </form>
-
-        <div id="comments-container">
-          <p>No comments fetched</p>
-        </div>
+      <form class="comment-form" action="/data" method="POST">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name"><br>
+        <label for="comment">Comment:</label><br>
+        <input type="text" id="comment" name="comment">
+        <input type="submit" value="Submit">
+      </form>
+      <div id="comments-container">
+        <p>No comments fetched</p>
       </div>
     </div>
     <script src="script.js" defer></script>
