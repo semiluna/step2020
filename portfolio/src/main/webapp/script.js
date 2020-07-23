@@ -34,42 +34,29 @@ async function getComments() {
   const response = await fetch("/data");
   const text = await response.text();
   const comments = JSON.parse(text);
+
+  document.getElementById("loading-text").remove();
   
-  const escapedComments = comments.map((comment) => {
-    const escapedName = convertHTML(comment.name);
-    const escapedText = convertHTML(comment.text);
-    return {name: escapedName, text: escapedText, date: comment.date};
+  const fatherDiv = document.getElementById("comments-container");
+
+  comments.forEach((comment) => {
+    const comDiv = document.createElement('div');
+    comDiv.classList.add("comment");
+
+    const h4 = document.createElement('h4');
+    h4.classList.add('comment-name');
+    
+    const node1 = document.createTextNode(`${comment.name} ${comment.date !== undefined ? "on " + comment.date : ""}`);
+    h4.appendChild(node1);
+
+    comDiv.appendChild(h4);
+
+    const txt = document.createElement('p');
+    const node2 = document.createTextNode(`${comment.text}`);
+
+    txt.appendChild(node2);
+    comDiv.appendChild(txt);
+
+    fatherDiv.appendChild(comDiv);
   });
-
-  const formattedComments = escapedComments.map((comment) => {
-    return `<div class="comment">
-              <h4 class="comment-name">
-                ${comment.name} ${comment.date !== undefined ? "on " + comment.date : ""}
-              </h4>
-              <p>${comment.text}</p>
-            </div>`
-  });
-
-  const htmlElement = formattedComments.join('');
-
-  document.getElementById("comments-container").innerHTML = htmlElement;
-}
-
-function convertHTML(str) {
-  let regex = /[&|<|>|"|']/g;
-  let htmlString = str.replace(regex, function(match){
-    if(match === "&"){
-      return "&amp;";
-    }else if(match === "<"){
-      return "&lt;"
-    }else if(match === ">"){
-      return "&gt;";
-    }else if(match === '"'){
-      return "&quot;";
-    }else{
-      return "&apos;";
-    }
-  });
-      
-  return htmlString;
 }

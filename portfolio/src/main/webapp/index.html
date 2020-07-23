@@ -100,17 +100,19 @@
     </div>
 
     <div class="comments-wrapper">
-      <h2 class="comment-form">Add a comment</h2>
-
+      <h2 class="comment-form">Add a comment!</h2>
+      <hr id="break-line">
       <form class="comment-form" action="/data" method="POST">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name"><br>
         <label for="comment">Comment:</label><br>
-        <input type="text" id="comment" name="comment">
+        <textarea id="comment" 
+          rows="4" cols="100" maxlength="400" name="comment">
+        </textarea>
         <input type="submit" value="Submit">
       </form>
       <div id="comments-container">
-        <p>No comments fetched</p>
+        <p id="loading-text">Fetching comments...</p>
       </div>
     </div>
     <script src="script.js" defer></script>
