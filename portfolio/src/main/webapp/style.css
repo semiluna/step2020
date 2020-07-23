@@ -211,6 +211,15 @@
 
 }
 
+#break-line {
+  color: black;
+  margin: 0px;
+  padding: 0px;
+  
+
+}
+
 .comment-form {
   margin: 10px;
+  flex-wrap: wrap;
 }

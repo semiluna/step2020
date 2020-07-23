@@ -17,12 +17,14 @@ package com.google.sps.servlets;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import com.google.sps.data.Comment;
 import com.google.gson.Gson;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
@@ -34,18 +36,18 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns comments on portfolio */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-
+  private int commentLimit = 25; //set the default limit of shown comments to 25
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("text/html;");
+    response.setContentType("application/json;charset=utf-8");
 
     ArrayList<Comment> comArray = new ArrayList<Comment>();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
-    Query query = new Query("Comment").addSort("name", SortDirection.DESCENDING);
+    Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
 
-    PreparedQuery results = datastore.prepare(query);
-    for (Entity entity : results.asIterable()) {
+    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentLimit));
+    for (Entity entity : results) {
       String entityName = (String) entity.getProperty("name");
       String entityText = (String) entity.getProperty("text");
       Long entityID = (Long) entity.getProperty("id");
@@ -64,6 +66,7 @@ public class DataServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    response.setContentType("application/json;charset=utf-8");
     String name = getParameter(request, "name", "Anonymus");
     String comment = getParameter(request, "comment", "");
     Date createDate = new Date();
