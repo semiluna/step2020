@@ -46,7 +46,7 @@ async function getComments() {
     //create name header
     const h4 = document.createElement('h4');
     h4.classList.add('comment-name-date');
-    const node1 = document.createTextNode(`${comment.name}`);
+    const node1 = document.createTextNode(comment.name);
     h4.appendChild(node1);
     comDiv.appendChild(h4);
 
