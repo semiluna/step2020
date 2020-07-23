@@ -40,20 +40,27 @@ async function getComments() {
   const fatherDiv = document.getElementById("comments-container");
 
   comments.forEach((comment) => {
+    //create div component for comment
     const comDiv = document.createElement('div');
     comDiv.classList.add("comment");
 
+    //create name header
     const h4 = document.createElement('h4');
-    h4.classList.add('comment-name');
-    
-    const node1 = document.createTextNode(`${comment.name} ${comment.date !== undefined ? "on " + comment.date : ""}`);
+    h4.classList.add('comment-name-date');
+    const node1 = document.createTextNode(`${comment.name}`);
     h4.appendChild(node1);
-
     comDiv.appendChild(h4);
 
+    //create date header
+    const dateNode = document.createTextNode(`${comment.date !== undefined ? comment.date : ""}`);
+    const dateElement = document.createElement('p');
+    dateElement.classList.add("comment-name-date");
+    dateElement.appendChild(dateNode);
+    comDiv.appendChild(dateElement);
+
+    //create text paragraph
     const txt = document.createElement('p');
     const node2 = document.createTextNode(`${comment.text}`);
-
     txt.appendChild(node2);
     comDiv.appendChild(txt);
 
