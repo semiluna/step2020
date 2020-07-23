@@ -30,7 +30,6 @@ hideables.forEach(hideable => {
 });
 
 async function getComments() {
-  
   const response = await fetch("/data");
   const text = await response.text();
   const comments = JSON.parse(text);

@@ -37,11 +37,12 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
   private int commentLimit = 25; //set the default limit of shown comments to 25
+  private final static String contentType = "application/json;charset=utf-8";
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;charset=utf-8");
+    response.setContentType(contentType);
 
-    ArrayList<Comment> comArray = new ArrayList<Comment>();
+    List<Comment> comments = new ArrayList<>();
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
 
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
@@ -56,18 +57,18 @@ public class DataServlet extends HttpServlet {
 
       Comment databaseComment = new Comment(entityName, entityText, entityID, date);
 
-      comArray.add(databaseComment);
+      comments.add(databaseComment);
     }
     Gson myGson = new Gson();
-    String json = myGson.toJson(comArray);
+    String json = myGson.toJson(comments);
 
     response.getWriter().println(json);
   }
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    response.setContentType("application/json;charset=utf-8");
-    String name = getParameter(request, "name", "Anonymus");
+    response.setContentType(contentType);
+    String name = getParameter(request, "name", "Anonymous");
     String comment = getParameter(request, "comment", "");
     Date createDate = new Date();
 
