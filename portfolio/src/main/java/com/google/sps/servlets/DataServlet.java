@@ -54,7 +54,6 @@ public class DataServlet extends HttpServlet {
       Long entityID = (Long) entity.getProperty("id");
       Date date = (Date) entity.getProperty("date");
 
-
       Comment databaseComment = new Comment(entityName, entityText, entityID, date);
 
       comments.add(databaseComment);
