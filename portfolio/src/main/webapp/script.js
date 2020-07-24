@@ -29,13 +29,41 @@ hideables.forEach(hideable => {
   h3.addEventListener('click', () => ul.classList.toggle("hidden"));
 });
 
+function validateComment() {
+  const name = document.getElementById("name").value;
+  const regex = "^[a-zA-Z0-9]+([_.-]?[a-zA-Z0-9])*$";
+
+  if (!name.match(regex)) {
+    alert("Invalid name");
+    return false;
+  }
+
+  if (name.length < 4) {
+    alert("Name too short");
+    return false;
+  }
+
+  if (name.length > 20) {
+    alert("Name too long");
+    return false;
+  }
+
+  const text = document.getElementById("comment").value;
+  if (!text.replace(/\s/g, '').length) {
+    alert("Comment can't be blank");
+    return false;
+  }
+
+  return true;
+}
+
 async function getComments() {
   let formNumber = document.getElementById("number-comments").value;
 
   const response = await fetch(`/data?number=${formNumber}`);
   const text = await response.text();
   const comments = JSON.parse(text);
-  
+
   const fatherDiv = document.getElementById("comments-container");
   
   while (fatherDiv.hasChildNodes()) {

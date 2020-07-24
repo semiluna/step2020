@@ -102,12 +102,14 @@
     <div class="comments-wrapper">
       <h2 class="comment-form">Add a comment!</h2>
       <hr id="break-line">
-      <form class="comment-form" action="/data" method="POST">
+      <form class="comment-form" action="/data" method="POST" onsubmit="return validateComment()">
         <label for="name">Name:</label><br>
-        <input type="text" id="name" name="name"><br>
+        <input type="text" id="name" name="name" required><br>
+        <p>Names must start and end with digits or letters and can contain underscores, periods and dashes.</p>
+        <p>Names cannot have consecutive dashes, dots or underscores.</p>
         <label for="comment">Comment:</label><br>
         <textarea id="comment" 
-          rows="4" cols="100" maxlength="400" name="comment">
+          rows="4" cols="100" maxlength="400" name="comment" required>
         </textarea>
         <input type="submit" value="Submit">
       </form>
