@@ -83,7 +83,7 @@ public class DataServlet extends HttpServlet {
     Date createDate = new Date();
 
     if (comment == "" || comment == null) {
-      response.sendRedirect("/");
+      throw new IOException("Comment is blank");
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
