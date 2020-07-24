@@ -30,13 +30,19 @@ hideables.forEach(hideable => {
 });
 
 async function getComments() {
-  const response = await fetch("/data");
+  let formNumber = document.getElementById("number-comments").value;
+
+  const response = await fetch(`/data?number=${formNumber}`);
   const text = await response.text();
   const comments = JSON.parse(text);
-
-  document.getElementById("loading-text").remove();
   
   const fatherDiv = document.getElementById("comments-container");
+  
+  while (fatherDiv.hasChildNodes()) {
+    fatherDiv.removeChild(fatherDiv.firstChild);
+  }
+
+  const auxDiv = document.createElement('div');
 
   comments.forEach((comment) => {
     //create div component for comment
@@ -63,6 +69,8 @@ async function getComments() {
     txt.appendChild(node2);
     comDiv.appendChild(txt);
 
-    fatherDiv.appendChild(comDiv);
+    auxDiv.appendChild(comDiv);
   });
+
+  fatherDiv.appendChild(auxDiv);
 }

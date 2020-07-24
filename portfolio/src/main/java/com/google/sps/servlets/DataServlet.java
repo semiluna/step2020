@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.lang.Integer;
 
 import com.google.sps.data.Comment;
 import com.google.gson.Gson;
@@ -36,10 +37,18 @@ import javax.servlet.http.HttpServletResponse;
 /** Servlet that returns comments on portfolio */
 @WebServlet("/data")
 public class DataServlet extends HttpServlet {
-  private int commentLimit = 25; //set the default limit of shown comments to 25
+  private int commentLimit = 25; //default set to 25
   private final static String contentType = "application/json;charset=utf-8";
+
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    String parameterName = "number";
+    String number = request.getParameter(parameterName);
+
+    if (number != null) {
+      this.commentLimit = Integer.parseInt(number);
+    }
+
     response.setContentType(contentType);
 
     List<Comment> comments = new ArrayList<>();
@@ -47,7 +56,9 @@ public class DataServlet extends HttpServlet {
 
     Query query = new Query("Comment").addSort("date", SortDirection.DESCENDING);
 
-    List<Entity> results = datastore.prepare(query).asList(FetchOptions.Builder.withLimit(commentLimit));
+    PreparedQuery preparedQuery = datastore.prepare(query);
+    List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(this.commentLimit));
+    
     for (Entity entity : results) {
       String entityName = (String) entity.getProperty("name");
       String entityText = (String) entity.getProperty("text");
