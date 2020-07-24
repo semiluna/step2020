@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta content-type="text/html;" charset="UTF-8">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body class="body-1" onload="getGreeting()">
+  <body class="body-1" onload="getComments()">
     <div class="wrapper">
       <div id="img-title">
         <img id="profile-img" src="/images/antonia-1.JPG"/>
@@ -13,12 +13,6 @@
       <div id="txt-title">
         <h1 id="h1-title">Antonia's Portfolio</h1>
       </div>
-    </div>
-
-    <div class="wrapper">
-        <div id="quote-container">
-            <p>Fetching greeting...</p>
-        </div>
     </div>
     
     <div class="wrapper">
@@ -103,6 +97,37 @@
 
     <div class="wrapper" id="gallery-wrapper">
       <button class="button"><a class="a" href="/gallery.html">Go to gallery</a></button>
+    </div>
+
+    <div class="comments-wrapper">
+      <h2 class="comment-form">Add a comment!</h2>
+      <hr id="break-line">
+      <form class="comment-form" action="/comments" method="POST" onsubmit="return validateComment()">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br>
+        <p>Names must start and end with digits or letters and can contain underscores, periods and dashes.</p>
+        <p>Names cannot have consecutive dashes, dots or underscores.</p>
+        <label for="comment">Comment:</label><br>
+        <textarea id="comment" 
+          rows="4" cols="100" maxlength="400" name="comment" required>
+        </textarea>
+        <input type="submit" value="Submit">
+      </form>
+
+      <div id="number-form">
+        <label for="number">Number of displayed comments:</label>
+        <select name="number" id="number-comments" onchange="getComments()">
+          <option value="5">5</option>
+          <option value="10">10</option>
+          <option value="25" selected>25</option>
+          <option value="50">50</option>
+          <option value="100">100</option>
+        </select>
+      </div>
+
+      <div id="comments-container">
+        <p id="loading-text">Fetching comments...</p>
+      </div>
     </div>
     <script src="script.js" defer></script>
   </body>

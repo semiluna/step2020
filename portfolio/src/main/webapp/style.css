@@ -4,7 +4,7 @@
 }
 
 .body-2 {
-  background-color: #f2c6b4;;
+  background-color: #f2c6b4;
 }
 
 .wrapper {
@@ -13,7 +13,6 @@
     flex-direction: row;
     justify-content: center;
     flex-wrap: wrap;
-
 }
 
 #img-title {
@@ -178,4 +177,53 @@
 
 .hidden {
   display: none;
+}
+
+#comments-container {
+  align-items: stretch;
+}
+
+.comment {
+  background-color: white;
+  padding: 10px;
+  margin: 10px;
+  justify-self:stretch;
+  flex: 1;
+  border-color: black;
+  border-style: solid;
+  border-width: 1px;
+}
+
+.comment-name-date {
+  background-color: #f2c6b4;
+  padding: 5px;
+  margin: 0px;
+}
+
+#comments-wrapper {
+  display: flex !important;
+  background-color: hsl(183, 59%, 75%);
+  flex-direction: column;
+  justify-content: left;
+  flex-wrap: wrap;
+  margin: 10px;
+
+}
+
+#break-line {
+  color: black;
+  margin: 0px;
+  padding: 0px;
+  
+
+}
+
+.comment-form {
+  margin: 10px;
+  flex-wrap: wrap;
+}
+
+#number-form {
+  margin: 10px;
+  flex-wrap: wrap;
 }
