@@ -60,45 +60,48 @@ function validateComment() {
 async function getComments() {
   let formNumber = document.getElementById("number-comments").value;
 
-  const response = await fetch(`/data?number=${formNumber}`);
+  const response = await fetch(`/comments?number=${formNumber}`);
   const text = await response.text();
   const comments = JSON.parse(text);
 
-  const fatherDiv = document.getElementById("comments-container");
+  const commentsContainer = document.getElementById("comments-container");
   
-  while (fatherDiv.hasChildNodes()) {
-    fatherDiv.removeChild(fatherDiv.firstChild);
+  while (commentsContainer.hasChildNodes()) {
+    commentsContainer.removeChild(commentsContainer.firstChild);
   }
 
-  const auxDiv = document.createElement('div');
+  const auxContainer = document.createElement('div');
 
   comments.forEach((comment) => {
-    //create div component for comment
-    const comDiv = document.createElement('div');
-    comDiv.classList.add("comment");
-
-    //create name header
-    const h4 = document.createElement('h4');
-    h4.classList.add('comment-name-date');
-    const node1 = document.createTextNode(comment.name);
-    h4.appendChild(node1);
-    comDiv.appendChild(h4);
-
-    //create date header
-    const dateNode = document.createTextNode(`${comment.date !== undefined ? comment.date : ""}`);
-    const dateElement = document.createElement('p');
-    dateElement.classList.add("comment-name-date");
-    dateElement.appendChild(dateNode);
-    comDiv.appendChild(dateElement);
-
-    //create text paragraph
-    const txt = document.createElement('p');
-    const node2 = document.createTextNode(`${comment.text}`);
-    txt.appendChild(node2);
-    comDiv.appendChild(txt);
-
-    auxDiv.appendChild(comDiv);
+    const commentDiv = createCommentNode(comment);
+    auxContainer.appendChild(commentDiv);
   });
 
-  fatherDiv.appendChild(auxDiv);
+  commentsContainer.appendChild(auxContainer);
+}
+
+/*create name header and text div in html for comment */
+function createCommentNode(comment) {
+  const comDiv = document.createElement('div');
+  comDiv.classList.add("comment");
+
+  const h4 = document.createElement('h4');
+  h4.classList.add('comment-name-date');
+  const nameNode = document.createTextNode(comment.name);
+  h4.appendChild(nameNode);
+  comDiv.appendChild(h4);
+
+  const dateNode = document.createTextNode(comment.date !== undefined ? comment.date : "");
+  const dateElement = document.createElement('p');
+  dateElement.classList.add("comment-name-date");
+  dateElement.appendChild(dateNode);
+  comDiv.appendChild(dateElement);
+
+  //create text paragraph
+  const txt = document.createElement('p');
+  const textNode = document.createTextNode(comment.text);
+  txt.appendChild(textNode);
+  comDiv.appendChild(txt);
+
+  return comDiv;
 }
