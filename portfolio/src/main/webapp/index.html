@@ -2,6 +2,7 @@
 <html>
   <head>
     <meta content-type="text/html;" charset="UTF-8">
+    <meta name="google-signin-client_id" content="764206484277-nfgom1kis6ltt2k6lbmgmb0e5hhe90o5.apps.googleusercontent.com">
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
@@ -112,7 +113,8 @@
           rows="4" cols="100" maxlength="400" name="comment" required>
         </textarea>
         <input type="submit" value="Submit">
-      </form>
+      </form> 
+      <div class="g-signin2" data-onsuccess="onSignIn"></div>
 
       <div id="number-form">
         <label for="number">Number of displayed comments:</label>
@@ -130,5 +132,6 @@
       </div>
     </div>
     <script src="script.js" defer></script>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
   </body>
 </html>
