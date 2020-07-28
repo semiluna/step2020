@@ -6,7 +6,7 @@
     <title>My Portfolio</title>
     <link rel="stylesheet" href="style.css">
   </head>
-  <body class="body-1" onload="getComments()">
+  <body class="body-1" onload="loader()">
     <div class="wrapper">
       <div id="img-title">
         <img id="profile-img" src="/images/antonia-1.JPG"/>
@@ -103,7 +103,7 @@
     <div class="comments-wrapper">
       <h2 class="comment-form">Add a comment!</h2>
       <hr id="break-line">
-      <form class="comment-form" action="/comments" method="POST" onsubmit="return validateComment()">
+      <form id="form" class="comment-form" action="/comments" method="POST" onsubmit="return validateComment()">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" required><br>
         <p>Names must start and end with digits or letters and can contain underscores, periods and dashes.</p>
@@ -113,9 +113,11 @@
           rows="4" cols="100" maxlength="400" name="comment" required>
         </textarea>
         <input type="submit" value="Submit">
-      </form> 
-      <div class="g-signin2" data-onsuccess="onSignIn"></div>
-
+      </form>
+      <div class="comment-form">
+        <h3 id="signin-info">You need to sign in to add a comment.</h3>
+        <div class="g-signin2" data-onsuccess="onSignIn"></div>
+      </div>
       <div id="number-form">
         <label for="number">Number of displayed comments:</label>
         <select name="number" id="number-comments" onchange="getComments()">

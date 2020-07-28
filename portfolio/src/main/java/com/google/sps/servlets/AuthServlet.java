@@ -9,6 +9,9 @@ import java.lang.Exception;
 import java.lang.Integer;
 import java.security.GeneralSecurityException;
 
+import com.google.sps.data.User;
+import com.google.gson.Gson;
+
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -49,9 +52,13 @@ public class AuthServlet extends HttpServlet {
         String familyName = (String) payload.get("family_name");
         String givenName = (String) payload.get("given_name");
 
-        response.getWriter().println("User has logged in: " + familyName);
+        User user = new User(userId, email, emailVerified, familyName, givenName);
+        Gson gson = new Gson();
+        String json = gson.toJson(user);
+
+        response.getWriter().println(json);
       } else {
-        response.getWriter().println("idToken is null");
+        response.getWriter().println((String) null);
       }
     } catch(Exception error) {
       response.getWriter().println(error);
@@ -64,7 +71,7 @@ public class AuthServlet extends HttpServlet {
         .build();
       
       GoogleIdToken idToken = verifier.verify(idTokenString);
-      return idToken; 
+      return idToken;
   }
 }
 

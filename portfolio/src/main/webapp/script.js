@@ -12,6 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+let user = null;
+
+
+function loader() {
+  getComments();
+  toggleCommentForm();
+}
+
 function showInfo(number) {
   let elementId = "info-" + number;
   let infoDiv = document.getElementById(elementId);
@@ -119,7 +127,25 @@ function onSignIn(googleUser) {
   request.open("POST", "/auth");
   request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
   request.onload = function() {
-    console.log("Signed in as: " + request.responseText);
+    const text = request.responseText;
+
+    if (text !== null) {
+      user = JSON.parse(text);
+      toggleCommentForm();
+    } 
   };
   request.send("id_token=" + id_token);
+}
+
+function toggleCommentForm() {
+  const commentForm = document.getElementById("form");
+  const signinInfo = document.getElementById("signin-info");
+
+  if (user == null) {
+    commentForm.style.display = "none";
+    signinInfo.style.display = "block";
+  } else {
+    commentForm.style.display = "block";
+    signinInfo.style.display = "none";
+  }
 }
