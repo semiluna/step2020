@@ -103,7 +103,7 @@
     <div class="comments-wrapper">
       <h2 class="comment-form">Add a comment!</h2>
       <hr id="break-line">
-      <form id="form" class="comment-form" action="/comments" method="POST" onsubmit="return validateComment()">
+      <div id="form" class="comment-form">
         <label for="name">Name:</label><br>
         <input type="text" id="name" name="name" required><br>
         <p>Names must start and end with digits or letters and can contain underscores, periods and dashes.</p>
@@ -112,8 +112,8 @@
         <textarea id="comment" 
           rows="4" cols="100" maxlength="400" name="comment" required>
         </textarea>
-        <input type="submit" value="Submit">
-      </form>
+        <input type="submit" value="Submit" onclick="sendComment()">
+      </div>
       <div class="comment-form">
         <h3 id="signin-info">You need to sign in to add a comment.</h3>
         <div class="g-signin2" data-onsuccess="onSignIn"></div>

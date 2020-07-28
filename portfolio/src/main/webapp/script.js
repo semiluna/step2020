@@ -14,7 +14,6 @@
 
 let user = null;
 
-
 function loader() {
   getComments();
   toggleCommentForm();
@@ -37,10 +36,14 @@ hideables.forEach(hideable => {
   h3.addEventListener('click', () => ul.classList.toggle("hidden"));
 });
 
-function validateComment() {
-  const name = document.getElementById("name").value;
+function validateComment(name, text) {
   const regex = "^[a-zA-Z0-9]+([_.-]?[a-zA-Z0-9])*$";
 
+  if (user == null) {
+    alert("You must sign in to submit a comment.");
+    return false;
+  }
+  
   if (!name.match(regex)) {
     alert("Invalid name");
     return false;
@@ -56,13 +59,31 @@ function validateComment() {
     return false;
   }
 
-  const text = document.getElementById("comment").value;
   if (!text.replace(/\s/g, '').length) {
     alert("Comment can't be blank");
     return false;
   }
 
   return true;
+}
+
+function sendComment() {
+  const name = document.getElementById("name").value;
+  const text = document.getElementById("comment").value;
+
+  if (validateComment(name, text) === true) {
+    const request = new XMLHttpRequest();
+    const requestData = `name=${name}&text=${text}&user=${user.email}`;
+    console.log(requestData);
+
+    request.open("POST", "/comments", true);
+    request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    request.onload = function() {
+      window.location = "/";
+    }
+    request.send(requestData);
+    
+  }
 }
 
 async function getComments() {
@@ -95,7 +116,7 @@ function createCommentNode(comment) {
 
   const h4 = document.createElement('h4');
   h4.classList.add('comment-name-date');
-  const nameNode = document.createTextNode(comment.name);
+  const nameNode = document.createTextNode(comment.name + " " + comment.email);
   h4.appendChild(nameNode);
   comDiv.appendChild(h4);
 
@@ -116,11 +137,6 @@ function createCommentNode(comment) {
 
 function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
-  console.log('ID: ' + profile.getId());
-  console.log('Name: ' + profile.getName());
-  console.log('Image URL: ' + profile.getImageUrl());
-  console.log('Email: ' + profile.getEmail());
-
   const id_token = googleUser.getAuthResponse().id_token;
 
   let request = new XMLHttpRequest();
@@ -131,6 +147,9 @@ function onSignIn(googleUser) {
 
     if (text !== null) {
       user = JSON.parse(text);
+      if (user.email !== profile.getEmail()) {
+        signOut();
+      }
       toggleCommentForm();
     } 
   };
@@ -148,4 +167,13 @@ function toggleCommentForm() {
     commentForm.style.display = "block";
     signinInfo.style.display = "none";
   }
+}
+
+function signOut() {
+  user = null;
+
+  let auth2 = gapi.auth2.getAuthInstance();
+  auth2.signOut().then(function () {
+    console.log('User signed out.');
+  });
 }

@@ -64,8 +64,9 @@ public class DataServlet extends HttpServlet {
       String entityText = (String) entity.getProperty("text");
       Long entityID = (Long) entity.getProperty("id");
       Date date = (Date) entity.getProperty("date");
+      String email = (String) entity.getProperty("email");
 
-      Comment databaseComment = new Comment(entityName, entityText, entityID, date);
+      Comment databaseComment = new Comment(entityName, entityText, entityID, date, email);
 
       comments.add(databaseComment);
     }
@@ -79,11 +80,16 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType(contentType);
     String name = getParameter(request, "name", "Anonymous");
-    String comment = getParameter(request, "comment", "");
+    String comment = getParameter(request, "text", (String) null);
+    String userEmail = getParameter(request, "user", (String) null);
     Date createDate = new Date();
 
     if (comment == "" || comment == null) {
       throw new IOException("Comment is blank");
+    }
+
+    if (userEmail == null) {
+      throw new IOException("email is blank");
     }
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -91,6 +97,7 @@ public class DataServlet extends HttpServlet {
     commentEntity.setProperty("name", name);
     commentEntity.setProperty("text", comment);
     commentEntity.setProperty("date", createDate);
+    commentEntity.setProperty("email", userEmail);
 
     datastore.put(commentEntity);
 
