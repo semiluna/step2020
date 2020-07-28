@@ -112,4 +112,14 @@ function onSignIn(googleUser) {
   console.log('Name: ' + profile.getName());
   console.log('Image URL: ' + profile.getImageUrl());
   console.log('Email: ' + profile.getEmail());
+
+  const id_token = googleUser.getAuthResponse().id_token;
+
+  let request = new XMLHttpRequest();
+  request.open("POST", "/auth");
+  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  request.onload = function() {
+    console.log("Signed in as: " + request.responseText);
+  };
+  request.send("id_token=" + id_token);
 }
