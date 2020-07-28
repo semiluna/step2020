@@ -61,7 +61,6 @@ public class AuthServlet extends HttpServlet {
   private GoogleIdToken validate(String idTokenString, JacksonFactory jsonFactory, NetHttpTransport transport) throws Exception {
       GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
         .setAudience(Collections.singletonList(CLIENT_ID))
-        .setIssuer("https://accounts.google.com")
         .build();
       
       GoogleIdToken idToken = verifier.verify(idTokenString);
