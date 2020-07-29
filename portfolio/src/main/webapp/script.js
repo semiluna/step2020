@@ -73,7 +73,7 @@ function sendComment() {
 
   if (validateComment(name, text) === true) {
     const request = new XMLHttpRequest();
-    const id_token = user.id_token;
+    const id_token = user.tokenId;
     const requestData = `name=${name}&text=${text}&id_token=${id_token}`;
 
     request.open("POST", "/comments", true);
@@ -138,23 +138,14 @@ function createCommentNode(comment) {
 function onSignIn(googleUser) {
   const profile = googleUser.getBasicProfile();
   const id_token = googleUser.getAuthResponse().id_token;
-
-  let request = new XMLHttpRequest();
-  request.open("POST", "/auth");
-  request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-  request.onload = function() {
-    const text = request.responseText;
-
-    if (text !== null) {
-      user = JSON.parse(text);
-      user.id_token = id_token;
-      if (user.email !== profile.getEmail()) {
-        signOut();
-      }
-      toggleCommentForm();
-    } 
-  };
-  request.send("id_token=" + id_token);
+  
+  user = { 
+          name: profile.getName(),
+          imageUrl: profile.getImageUrl(),
+          email: profile.getEmail(),
+          tokenId: id_token,
+  }
+  toggleCommentForm();
 }
 
 function toggleCommentForm() {
