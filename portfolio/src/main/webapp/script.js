@@ -73,8 +73,8 @@ function sendComment() {
 
   if (validateComment(name, text) === true) {
     const request = new XMLHttpRequest();
-    const requestData = `name=${name}&text=${text}&user=${user.email}`;
-    console.log(requestData);
+    const id_token = user.id_token;
+    const requestData = `name=${name}&text=${text}&id_token=${id_token}`;
 
     request.open("POST", "/comments", true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -147,6 +147,7 @@ function onSignIn(googleUser) {
 
     if (text !== null) {
       user = JSON.parse(text);
+      user.id_token = id_token;
       if (user.email !== profile.getEmail()) {
         signOut();
       }
