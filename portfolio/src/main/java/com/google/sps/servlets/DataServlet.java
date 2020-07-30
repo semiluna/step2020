@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.lang.Integer;
 
 import java.lang.Exception;
+import java.lang.NullPointerException;
 import java.security.GeneralSecurityException;
 
 import com.google.sps.data.Comment;
@@ -53,6 +54,10 @@ public class DataServlet extends HttpServlet {
   private int commentLimit = 25; //default set to 25
   private final static String contentType = "application/json;charset=utf-8";
   private static final String CLIENT_ID = "764206484277-nfgom1kis6ltt2k6lbmgmb0e5hhe90o5.apps.googleusercontent.com";
+  private static final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+      .Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+      .setAudience(Collections.singletonList(CLIENT_ID))
+      .build();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -117,37 +122,41 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, "text", "");
     Date createDate = new Date();
 
-    if (comment == null || comment == "") {
-      throw new IOException("Comment is blank");
-    }
-
-    String idTokenString = request.getParameter("id_token");
-    
     try {
-      JacksonFactory jsonFactory = JacksonFactory.getDefaultInstance();
-      NetHttpTransport transport = new NetHttpTransport();
-      
-      GoogleIdToken idToken = validate(idTokenString, jsonFactory, transport);
-
-      if (idToken != null) {
-        Payload payload = idToken.getPayload();
-        
-        String userId = payload.getSubject();
-        String email = payload.getEmail();
-
-        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-        Entity commentEntity = new Entity("Comment");
-        commentEntity.setProperty("name", name);
-        commentEntity.setProperty("text", comment);
-        commentEntity.setProperty("date", createDate);
-        commentEntity.setProperty("email", email);
-
-        datastore.put(commentEntity);
-
-        response.sendRedirect("/");
+      if (comment == null || comment == "") {
+        throw new IOException("Comment is blank");
       }
+      
+      String idTokenString = request.getParameter("id_token");
+      if (idTokenString == null) {
+        throw new GeneralSecurityException("User must be signed in.");
+      }
+      
+      GoogleIdToken idToken = validate(idTokenString);
+
+      Payload payload = idToken.getPayload();
+        
+      String userId = payload.getSubject();
+      String email = payload.getEmail();
+
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("name", name);
+      commentEntity.setProperty("text", comment);
+      commentEntity.setProperty("date", createDate);
+      commentEntity.setProperty("email", email);
+
+      datastore.put(commentEntity);
+    } catch(NullPointerException error) {
+      System.out.println("Null Pointer Exception: " + error);
+    } catch(GeneralSecurityException error) {
+      System.out.println("General security exception: " + error);
+    } catch(IOException error) {
+      System.out.println("IOException: " + error);
     } catch(Exception error) {
-      response.getWriter().println(error);
+      System.out.println("Error: " + error);
+    } finally {
+      response.sendRedirect("/");
     }
   }
 
@@ -159,13 +168,11 @@ public class DataServlet extends HttpServlet {
     return value;
   }
 
-  private GoogleIdToken validate(String idTokenString, JacksonFactory jsonFactory, NetHttpTransport transport) throws Exception {
-    GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier.Builder(transport, jsonFactory)
-      .setAudience(Collections.singletonList(CLIENT_ID))
-      .build();
-    
-    GoogleIdToken idToken = verifier.verify(idTokenString);
+  private GoogleIdToken validate(String idTokenString) throws Exception {
+    GoogleIdToken idToken = this.verifier.verify(idTokenString);
+    if (idToken == null) {
+      throw new GeneralSecurityException("User validation failed.");
+    }
     return idToken;
   }
 }
-
