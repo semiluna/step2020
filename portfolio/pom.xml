@@ -46,12 +46,24 @@
       <artifactId>google-api-client-servlet</artifactId>
       <version>1.30.4</version>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value-annotations</artifactId>
+      <version>1.7.4</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.auto.value</groupId>
+      <artifactId>auto-value</artifactId>
+      <version>1.7.4</version>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
 
   <build>
     <plugins>
       <!-- Provides `mvn package appengine:run` for local testing
-           and `mvn package appengine:deploy` for deploying. -->
+           and `mvn package appengine:deploy` for deploying. -->  
       <plugin>
         <groupId>com.google.cloud.tools</groupId>
         <artifactId>appengine-maven-plugin</artifactId>

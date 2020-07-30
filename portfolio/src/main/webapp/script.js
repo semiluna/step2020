@@ -111,12 +111,12 @@ async function getComments() {
 
 /*create name header and text div in html for comment */
 function createCommentNode(comment) {
-  const comDiv = document.createElement('div');
+  const comDiv = document.createElement("div");
   comDiv.classList.add("comment");
 
-  const h4 = document.createElement('h4');
-  h4.classList.add('comment-name-date');
-  const nameNode = document.createTextNode(comment.name + " " + comment.email);
+  const h4 = document.createElement("h4");
+  h4.classList.add("comment-name-date");
+  const nameNode = document.createTextNode(comment.name + " " + (comment.email !== undefined ? comment.email : ""));
   h4.appendChild(nameNode);
   comDiv.appendChild(h4);
 
@@ -125,9 +125,9 @@ function createCommentNode(comment) {
   dateElement.classList.add("comment-name-date");
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
-
+  
   //create text paragraph
-  const txt = document.createElement('p');
+  const txt = document.createElement("p");
   const textNode = document.createTextNode(comment.text);
   txt.appendChild(textNode);
   comDiv.appendChild(txt);

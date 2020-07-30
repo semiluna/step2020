@@ -47,7 +47,6 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
-
 /** Servlet that returns comments on portfolio */
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
@@ -75,13 +74,33 @@ public class DataServlet extends HttpServlet {
     List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(this.commentLimit));
     
     for (Entity entity : results) {
-      String entityName = (String) entity.getProperty("name");
-      String entityText = (String) entity.getProperty("text");
-      Long entityID = (Long) entity.getProperty("id");
-      Date date = (Date) entity.getProperty("date");
-      String email = (String) entity.getProperty("email");
+      String entityName = "Anonymous";
+      String entityText = "";
+      Date date = null;
+      String email = "";
+      float score = (float) 2.0;
+      
+      if (entity.hasProperty("name")) {
+        entityName = (String) entity.getProperty("name");
+      }
 
-      Comment databaseComment = new Comment(entityName, entityText, entityID, date, email);
+      if (entity.hasProperty("text")) {
+        entityText = (String) entity.getProperty("text");
+      }
+
+      if (entity.hasProperty("date")) {
+        date = (Date) entity.getProperty("date");
+      }
+      
+      if (entity.hasProperty("email")) {
+        email = (String) entity.getProperty("email");
+      }
+      
+      if (entity.hasProperty("score")) {
+        score = (float) entity.getProperty("score");
+      }
+
+      Comment databaseComment = Comment.create(entityName, entityText, date, email, score);
 
       comments.add(databaseComment);
     }
@@ -98,7 +117,7 @@ public class DataServlet extends HttpServlet {
     String comment = getParameter(request, "text", "");
     Date createDate = new Date();
 
-    if (comment == "" || comment == null) {
+    if (comment == null || comment == "") {
       throw new IOException("Comment is blank");
     }
 
@@ -147,6 +166,6 @@ public class DataServlet extends HttpServlet {
     
     GoogleIdToken idToken = verifier.verify(idTokenString);
     return idToken;
-}
+  }
 }
 
