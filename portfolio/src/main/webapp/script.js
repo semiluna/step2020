@@ -160,21 +160,25 @@ function onSignIn(googleUser) {
 function toggleCommentForm() {
   const commentForm = document.getElementById("form");
   const signinInfo = document.getElementById("signin-info");
+  const signOutButton = document.getElementById("sign-out");
 
   if (user == null) {
-    commentForm.style.display = "none";
-    signinInfo.style.display = "block";
+    commentForm.classList.add("hidden");
+    signinInfo.classList.remove("hidden");
+    signOutButton.classList.add("hidden");
   } else {
-    commentForm.style.display = "block";
-    signinInfo.style.display = "none";
+    commentForm.classList.remove("hidden");
+    signinInfo.classList.add("hidden");
+    signOutButton.classList.remove("hidden");
   }
 }
 
-function signOut() {
+function onSignOut() {
   user = null;
 
   let auth2 = gapi.auth2.getAuthInstance();
   auth2.signOut().then(function () {
     console.log('User signed out.');
+    toggleCommentForm();
   });
 }

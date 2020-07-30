@@ -227,3 +227,7 @@
   margin: 10px;
   flex-wrap: wrap;
 }
+
+#sign-out {
+  margin-top: 5px;
+}
