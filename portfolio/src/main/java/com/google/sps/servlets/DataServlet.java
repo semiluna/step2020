@@ -48,12 +48,20 @@ import com.google.api.client.http.HttpTransport;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.jackson2.JacksonFactory;
 
+ 
+import com.google.cloud.language.v1.Document;
+import com.google.cloud.language.v1.Document.Type;
+import com.google.cloud.language.v1.LanguageServiceClient;
+import com.google.cloud.language.v1.Sentiment;
+import com.google.cloud.language.v1.AnalyzeSentimentResponse;
+
 /** Servlet that returns comments on portfolio */
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
   private int commentLimit = 25; //default set to 25
   private final static String contentType = "application/json;charset=utf-8";
   private static final String CLIENT_ID = "764206484277-nfgom1kis6ltt2k6lbmgmb0e5hhe90o5.apps.googleusercontent.com";
+  private static final String key = "AIzaSyD95ipnFZlWNGHT_ii5eiQ_ayIdgwVF1UI";
   private static final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
       .Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
       .setAudience(Collections.singletonList(CLIENT_ID))
@@ -83,7 +91,7 @@ public class DataServlet extends HttpServlet {
       String entityText = "";
       Date date = null;
       String email = "";
-      float score = (float) 2.0;
+      Double score = (Double) 2.0;
       
       if (entity.hasProperty("name")) {
         entityName = (String) entity.getProperty("name");
@@ -102,7 +110,7 @@ public class DataServlet extends HttpServlet {
       }
       
       if (entity.hasProperty("score")) {
-        score = (float) entity.getProperty("score");
+        score = (Double) entity.getProperty("score");
       }
 
       Comment databaseComment = Comment.create(entityName, entityText, date, email, score);
@@ -138,6 +146,7 @@ public class DataServlet extends HttpServlet {
         
       String userId = payload.getSubject();
       String email = payload.getEmail();
+      float commentScore = sentimentAnalysis(comment);
 
       DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
       Entity commentEntity = new Entity("Comment");
@@ -145,6 +154,7 @@ public class DataServlet extends HttpServlet {
       commentEntity.setProperty("text", comment);
       commentEntity.setProperty("date", createDate);
       commentEntity.setProperty("email", email);
+      commentEntity.setProperty("score", commentScore);
 
       datastore.put(commentEntity);
     } catch(NullPointerException error) {
@@ -159,6 +169,7 @@ public class DataServlet extends HttpServlet {
       response.sendRedirect("/");
     }
   }
+
 
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
@@ -175,4 +186,19 @@ public class DataServlet extends HttpServlet {
     }
     return idToken;
   }
+
+  private float sentimentAnalysis(String message) throws IOException {
+    Document doc = Document
+      .newBuilder()
+      //.setProjectId("antana-step-2020")
+      .setContent(message)
+      .setType(Document.Type.PLAIN_TEXT)
+      .build();
+    LanguageServiceClient languageService = LanguageServiceClient.create();
+    AnalyzeSentimentResponse response = languageService.analyzeSentiment(doc);
+    Sentiment sentiment = response.getDocumentSentiment();
+    float score = sentiment.getScore();
+    languageService.close();
+    return score;
+  } 
 }

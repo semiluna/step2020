@@ -134,6 +134,12 @@ function createCommentNode(comment) {
   dateElement.classList.add("comment-name-date");
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
+  
+  const scoreNode = document.createTextNode(`Score: ${comment.score !== undefined ? comment.score : "N/A"}`);
+  const scoreElement = document.createElement("p");
+  scoreElement.classList.add("comment-name-date");
+  scoreElement.appendChild(scoreNode);
+  comDiv.appendChild(scoreElement);
 
   //create text paragraph
   const txt = document.createElement("p");

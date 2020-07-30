@@ -58,6 +58,12 @@
       <version>1.7.4</version>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+      <groupId>com.google.cloud</groupId>
+      <artifactId>google-cloud-language</artifactId>
+      <version>1.99.3</version>
+    </dependency>
   </dependencies>
 
   <build>
