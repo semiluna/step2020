@@ -67,6 +67,10 @@ function validateComment(name, text) {
   return true;
 }
 
+function encodeParameters(key, value) {
+  return encodeURIComponent(key) + "=" + encodeURIComponent(value);
+}
+
 function sendComment() {
   const name = document.getElementById("name").value;
   const text = document.getElementById("comment").value;
@@ -74,7 +78,12 @@ function sendComment() {
   if (validateComment(name, text) === true) {
     const request = new XMLHttpRequest();
     const id_token = user.tokenId;
-    const requestData = `name=${name}&text=${text}&id_token=${id_token}`;
+
+    const formBody = [];
+    formBody.push(encodeParameters("name", name));
+    formBody.push(encodeParameters("text", text));
+    formBody.push(encodeParameters("id_token", id_token));
+    const requestData = formBody.join("&");
 
     request.open("POST", "/comments", true);
     request.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -125,7 +134,7 @@ function createCommentNode(comment) {
   dateElement.classList.add("comment-name-date");
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
-  
+
   //create text paragraph
   const txt = document.createElement("p");
   const textNode = document.createTextNode(comment.text);
