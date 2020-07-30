@@ -61,7 +61,6 @@ public class DataServlet extends HttpServlet {
   private int commentLimit = 25; //default set to 25
   private final static String contentType = "application/json;charset=utf-8";
   private static final String CLIENT_ID = "764206484277-nfgom1kis6ltt2k6lbmgmb0e5hhe90o5.apps.googleusercontent.com";
-  private static final String key = "AIzaSyD95ipnFZlWNGHT_ii5eiQ_ayIdgwVF1UI";
   private static final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
       .Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
       .setAudience(Collections.singletonList(CLIENT_ID))
@@ -190,7 +189,6 @@ public class DataServlet extends HttpServlet {
   private float sentimentAnalysis(String message) throws IOException {
     Document doc = Document
       .newBuilder()
-      //.setProjectId("antana-step-2020")
       .setContent(message)
       .setType(Document.Type.PLAIN_TEXT)
       .build();
