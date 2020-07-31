@@ -18,7 +18,12 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Collections;
 import java.lang.Integer;
+
+import java.lang.Exception;
+import java.lang.NullPointerException;
+import java.security.GeneralSecurityException;
 
 import com.google.sps.data.Comment;
 import com.google.gson.Gson;
@@ -30,15 +35,29 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import javax.servlet.annotation.WebServlet;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier;
+
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.http.javanet.NetHttpTransport;
+import com.google.api.client.json.jackson2.JacksonFactory;
 
 /** Servlet that returns comments on portfolio */
 @WebServlet("/comments")
 public class DataServlet extends HttpServlet {
   private int commentLimit = 25; //default set to 25
   private final static String contentType = "application/json;charset=utf-8";
+  private static final String CLIENT_ID = "764206484277-nfgom1kis6ltt2k6lbmgmb0e5hhe90o5.apps.googleusercontent.com";
+  private static final GoogleIdTokenVerifier verifier = new GoogleIdTokenVerifier
+      .Builder(new NetHttpTransport(), JacksonFactory.getDefaultInstance())
+      .setAudience(Collections.singletonList(CLIENT_ID))
+      .build();
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -60,12 +79,33 @@ public class DataServlet extends HttpServlet {
     List<Entity> results = preparedQuery.asList(FetchOptions.Builder.withLimit(this.commentLimit));
     
     for (Entity entity : results) {
-      String entityName = (String) entity.getProperty("name");
-      String entityText = (String) entity.getProperty("text");
-      Long entityID = (Long) entity.getProperty("id");
-      Date date = (Date) entity.getProperty("date");
+      String entityName = "Anonymous";
+      String entityText = "";
+      Date date = null;
+      String email = "";
+      float score = (float) 2.0;
+      
+      if (entity.hasProperty("name")) {
+        entityName = (String) entity.getProperty("name");
+      }
 
-      Comment databaseComment = new Comment(entityName, entityText, entityID, date);
+      if (entity.hasProperty("text")) {
+        entityText = (String) entity.getProperty("text");
+      }
+
+      if (entity.hasProperty("date")) {
+        date = (Date) entity.getProperty("date");
+      }
+      
+      if (entity.hasProperty("email")) {
+        email = (String) entity.getProperty("email");
+      }
+      
+      if (entity.hasProperty("score")) {
+        score = (float) entity.getProperty("score");
+      }
+
+      Comment databaseComment = Comment.create(entityName, entityText, date, email, score);
 
       comments.add(databaseComment);
     }
@@ -79,22 +119,45 @@ public class DataServlet extends HttpServlet {
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     response.setContentType(contentType);
     String name = getParameter(request, "name", "Anonymous");
-    String comment = getParameter(request, "comment", "");
+    String comment = getParameter(request, "text", "");
     Date createDate = new Date();
 
-    if (comment == "" || comment == null) {
-      throw new IOException("Comment is blank");
+    try {
+      if (comment == null || comment == "") {
+        throw new IOException("Comment is blank");
+      }
+      
+      String idTokenString = request.getParameter("id_token");
+      if (idTokenString == null) {
+        throw new GeneralSecurityException("User must be signed in.");
+      }
+      
+      GoogleIdToken idToken = validate(idTokenString);
+
+      Payload payload = idToken.getPayload();
+        
+      String userId = payload.getSubject();
+      String email = payload.getEmail();
+
+      DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+      Entity commentEntity = new Entity("Comment");
+      commentEntity.setProperty("name", name);
+      commentEntity.setProperty("text", comment);
+      commentEntity.setProperty("date", createDate);
+      commentEntity.setProperty("email", email);
+
+      datastore.put(commentEntity);
+    } catch(NullPointerException error) {
+      System.out.println("Null Pointer Exception: " + error);
+    } catch(GeneralSecurityException error) {
+      System.out.println("General security exception: " + error);
+    } catch(IOException error) {
+      System.out.println("IOException: " + error);
+    } catch(Exception error) {
+      System.out.println("Error: " + error);
+    } finally {
+      response.sendRedirect("/");
     }
-
-    DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
-    Entity commentEntity = new Entity("Comment");
-    commentEntity.setProperty("name", name);
-    commentEntity.setProperty("text", comment);
-    commentEntity.setProperty("date", createDate);
-
-    datastore.put(commentEntity);
-
-    response.sendRedirect("/");
   }
 
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
@@ -103,5 +166,13 @@ public class DataServlet extends HttpServlet {
       return defaultValue;
     }
     return value;
+  }
+
+  private GoogleIdToken validate(String idTokenString) throws Exception {
+    GoogleIdToken idToken = this.verifier.verify(idTokenString);
+    if (idToken == null) {
+      throw new GeneralSecurityException("User validation failed.");
+    }
+    return idToken;
   }
 }

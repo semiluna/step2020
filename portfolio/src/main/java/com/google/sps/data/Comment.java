@@ -1,33 +1,17 @@
 package com.google.sps.data;
 
 import java.util.Date;
+import com.google.auto.value.AutoValue;
 
-public class Comment {
-    private final String name;
-    private final String text;
-    private final Long id;
-    private final Date date;
-
-    public Comment(String name, String text, Long id, Date date) {
-        this.name = name;
-        this.text = text;
-        this.id = id;
-        this.date = date;
+@AutoValue
+public abstract class Comment {
+    public static Comment create(String name, String text, Date date, String email, float score) {
+        return new AutoValue_Comment(name, text, date, email, score);
     }
 
-    String getName() {
-        return this.name;
-    }
-
-    String getText() {
-        return this.text;
-    }
-
-    Long getID() {
-        return this.id;
-    }
-
-    Date getDate() {
-        return this.date;
-    }
+    abstract String name();
+    abstract String text();
+    abstract Date date();
+    abstract String email();
+    abstract float score();
 }
