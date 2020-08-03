@@ -135,7 +135,7 @@ function createCommentNode(comment) {
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
   
-  const scoreNode = document.createTextNode(`Score: ${comment.score !== undefined ? comment.score : "N/A"}`);
+  const scoreNode = document.createTextNode(`Sentiment analysis score: ${comment.score !== undefined && comment.score !== 2 ? comment.score : "N/A"}`);
   const scoreElement = document.createElement("p");
   scoreElement.classList.add("comment-name-date");
   scoreElement.appendChild(scoreNode);
