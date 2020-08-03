@@ -169,7 +169,6 @@ public class DataServlet extends HttpServlet {
     }
   }
 
-
   private String getParameter(HttpServletRequest request, String name, String defaultValue) {
     String value = request.getParameter(name);
     if (value == null) {
@@ -192,11 +191,12 @@ public class DataServlet extends HttpServlet {
       .setContent(message)
       .setType(Document.Type.PLAIN_TEXT)
       .build();
-    LanguageServiceClient languageService = LanguageServiceClient.create();
-    AnalyzeSentimentResponse response = languageService.analyzeSentiment(doc);
-    Sentiment sentiment = response.getDocumentSentiment();
-    float score = sentiment.getScore();
-    languageService.close();
-    return score;
+    
+    try(LanguageServiceClient languageService = LanguageServiceClient.create()) {
+      AnalyzeSentimentResponse response = languageService.analyzeSentiment(doc);
+      Sentiment sentiment = response.getDocumentSentiment();
+      float score = sentiment.getScore();
+      return score;
+    }
   } 
 }

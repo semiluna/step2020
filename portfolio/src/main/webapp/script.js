@@ -135,11 +135,13 @@ function createCommentNode(comment) {
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
   
-  const scoreNode = document.createTextNode(`Sentiment analysis score: ${comment.score !== undefined && comment.score !== 2 ? comment.score : "N/A"}`);
-  const scoreElement = document.createElement("p");
-  scoreElement.classList.add("comment-name-date");
-  scoreElement.appendChild(scoreNode);
-  comDiv.appendChild(scoreElement);
+  if (comment.score !== undefined && comment.score !== 2) {
+    const scoreNode = document.createTextNode(`Your comment is a more ${comment.score >= 0.0 ? "positive" : "negative"} one. The score is: ${comment.score}.`);
+    const scoreElement = document.createElement("p");
+    scoreElement.classList.add("comment-name-date");
+    scoreElement.appendChild(scoreNode);
+    comDiv.appendChild(scoreElement);
+  }
 
   //create text paragraph
   const txt = document.createElement("p");
