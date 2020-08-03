@@ -134,6 +134,14 @@ function createCommentNode(comment) {
   dateElement.classList.add("comment-name-date");
   dateElement.appendChild(dateNode);
   comDiv.appendChild(dateElement);
+  
+  if (comment.score !== undefined && comment.score !== 2) {
+    const scoreNode = document.createTextNode(`Your comment is a more ${comment.score >= 0.0 ? "positive" : "negative"} one. The score is: ${comment.score}.`);
+    const scoreElement = document.createElement("p");
+    scoreElement.classList.add("comment-name-date");
+    scoreElement.appendChild(scoreNode);
+    comDiv.appendChild(scoreElement);
+  }
 
   //create text paragraph
   const txt = document.createElement("p");

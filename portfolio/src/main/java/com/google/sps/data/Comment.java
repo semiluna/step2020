@@ -5,7 +5,7 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class Comment {
-    public static Comment create(String name, String text, Date date, String email, float score) {
+    public static Comment create(String name, String text, Date date, String email, Double score) {
         return new AutoValue_Comment(name, text, date, email, score);
     }
 
@@ -13,5 +13,5 @@ public abstract class Comment {
     abstract String text();
     abstract Date date();
     abstract String email();
-    abstract float score();
+    abstract Double score();
 }
