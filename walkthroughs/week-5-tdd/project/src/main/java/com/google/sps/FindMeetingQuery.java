@@ -31,23 +31,63 @@ public final class FindMeetingQuery {
     HashSet<String> requested = new HashSet<>(request.getAttendees());
     HashSet<Event> eventsSet = new HashSet<>(events);
 
-    ArrayList<TimeRange> list = eventsSet
+    ArrayList<TimeRange> mandatoryTimes = eventsSet
       .stream()
-      .filter(event -> this.checkAttendees(event, request) == true)
+      .filter(event -> this.checkAttendees(event, request, false) == true)
       .map(event -> event.getWhen())
       .collect(Collectors.toCollection(ArrayList::new));
 
-    ArrayList<TimeRange> times = new ArrayList<>(list);
-    System.out.println(times);
+    ArrayList<TimeRange> optionalTimes = eventsSet
+      .stream()
+      .filter(event -> this.checkAttendees(event, request, true) == true)
+      .map(event -> event.getWhen())
+      .collect(Collectors.toCollection(ArrayList::new));
+
+    System.out.println(mandatoryTimes);
+    System.out.println(optionalTimes);
 
     //sort time ranges by start
-    Collections.sort(times, TimeRange.ORDER_BY_START);
+    Collections.sort(mandatoryTimes, TimeRange.ORDER_BY_START);
+    Collections.sort(optionalTimes, TimeRange.ORDER_BY_START);
 
+    ArrayList<TimeRange> mandatoryFreeTimes = findFreeTimes(mandatoryTimes, request);
+    ArrayList<TimeRange> optionalFreeTimes = findFreeTimes(optionalTimes, request);
+
+    if (optionalFreeTimes.isEmpty()) {
+      return mandatoryFreeTimes;
+    }
+    
+    return optionalFreeTimes;
+  }
+
+  private static boolean checkAttendees(Event event, MeetingRequest request, boolean checkOptional) {
+    HashSet<String> attendees = new HashSet<>(event.getAttendees());
+    HashSet<String> requested = new HashSet<>(request.getAttendees());
+    HashSet<String> optional = new HashSet<>(request.getOptionalAttendees());
+
+    for (String person: requested) {
+      if (attendees.contains(person)) {
+        return true;
+      }
+    }
+    
+    if (checkOptional) {
+      for (String person: optional) {
+        if (attendees.contains(person))
+          return true;
+      }
+    }
+
+    return false;
+  }
+
+  private static ArrayList<TimeRange> findFreeTimes(ArrayList<TimeRange> times, MeetingRequest request) {
     //get free times
     ArrayList<TimeRange> freeTimes = new ArrayList();
     
     if (times.isEmpty() && (request.getDuration() <= totalMinutes)) {
       freeTimes.add(TimeRange.WHOLE_DAY);
+      return freeTimes;
     }
 
     if (times.isEmpty()) {
@@ -85,18 +125,5 @@ public final class FindMeetingQuery {
     Collections.sort(freeTimes, TimeRange.ORDER_BY_START);
 
     return freeTimes;
-  }
-
-  private static boolean checkAttendees(Event event, MeetingRequest request) {
-    HashSet<String> attendees = new HashSet<>(event.getAttendees());
-    HashSet<String> requested = new HashSet<>(request.getAttendees());
-
-    for (String person: requested) {
-      if (attendees.contains(person)) {
-        return true;
-      }
-    }
-    
-    return false;
   }
 }
