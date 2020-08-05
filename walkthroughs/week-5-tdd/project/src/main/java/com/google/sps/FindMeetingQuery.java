@@ -21,6 +21,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.stream.Collectors;
 
 import com.google.sps.TimeRange;
@@ -86,17 +87,15 @@ public final class FindMeetingQuery {
 
   private static List<TimeRange> findFreeTimes(List<TimeRange> events, long meetingDuration) {
     //get free times
-    List<TimeRange> freeTimes = new ArrayList();
-    
     if (events.isEmpty() && (meetingDuration <= totalMinutes)) {
-      freeTimes.add(TimeRange.WHOLE_DAY);
-      return freeTimes;
+      return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
     if (events.isEmpty()) {
-      return freeTimes;
+      return Collections.emptyList();
     }
 
+    List<TimeRange> freeTimes = new ArrayList();
     TimeRange intersection = events.get(0);
 
     for (TimeRange range: events) {
