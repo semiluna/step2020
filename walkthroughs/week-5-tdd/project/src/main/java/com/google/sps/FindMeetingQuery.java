@@ -104,11 +104,11 @@ public final class FindMeetingQuery {
         continue;
       } else {
         if (intersection.overlaps(range)) {
-          intersection = new TimeRange(intersection.start(), range.end() - intersection.start());
+          intersection = TimeRange.fromStartEnd(intersection.start(), range.end(), false);
         } else {
           //found free time
-          TimeRange free = new TimeRange(intersection.end(), range.start() - intersection.end());
-          intersection = new TimeRange(range.start(), range.end() - range.start());
+          TimeRange free = TimeRange.fromStartEnd(intersection.end(), range.start(), false);
+          intersection = TimeRange.fromStartEnd(range.start(), range.end(), false);
           if (free.duration() >= meetingDuration) {
             freeTimes.add(free);
           }
@@ -118,13 +118,18 @@ public final class FindMeetingQuery {
 
     //check for beginning and end
     if (TimeRange.START_OF_DAY < events.get(0).start()) {
-      freeTimes.add(new TimeRange(0, events.get(0).start()));
+      if (events.get(0).start() >= meetingDuration) {
+        freeTimes.add(TimeRange.fromStartEnd(0, events.get(0).start(), false));
+      }
     }
 
     if (intersection.end() < TimeRange.END_OF_DAY) {
-      int end = intersection.end();
-      freeTimes.add(new TimeRange(end, totalMinutes - end));
+      int duration = TimeRange.END_OF_DAY - intersection.end();
+      if (duration >= meetingDuration) {
+        freeTimes.add(TimeRange.fromStartEnd(intersection.end(), TimeRange.END_OF_DAY, true));
+      }
     }
+
     Collections.sort(freeTimes, TimeRange.ORDER_BY_START);
 
     return freeTimes;
