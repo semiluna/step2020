@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import com.google.sps.TimeRange;
 
 public final class FindMeetingQuery {
-  private final static int totalMinutes = 1440;
+  private final static int TOTAL_MINUTES = 1440;
 
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
     //remove events with no requested attendees
@@ -87,7 +87,7 @@ public final class FindMeetingQuery {
 
   private static List<TimeRange> findFreeTimes(List<TimeRange> events, long meetingDuration) {
     //get free times
-    if (events.isEmpty() && (meetingDuration <= totalMinutes)) {
+    if (events.isEmpty() && (meetingDuration <= TOTAL_MINUTES)) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
