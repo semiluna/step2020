@@ -78,11 +78,7 @@ public final class FindMeetingQuery {
   }
 
   private static boolean matchesAttendees(Event event, Set<String> requestedAttendees, Set<String> optionalAttendees) {
-    if (matchesAttendees(event, requestedAttendees)) {
-      return true;
-    }
-
-    return matchesAttendees(event, optionalAttendees);
+    return matchesAttendees(event, requestedAttendees) || matchesAttendees(event, optionalAttendees);
   }
 
   private static List<TimeRange> findFreeTimes(List<TimeRange> events, long meetingDuration) {
