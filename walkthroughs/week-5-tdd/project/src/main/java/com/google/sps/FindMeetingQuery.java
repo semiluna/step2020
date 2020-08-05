@@ -33,15 +33,18 @@ public final class FindMeetingQuery {
     Set<String> requested = new HashSet<>(request.getAttendees());
     Set<Event> eventsSet = new HashSet<>(events);
 
+    Set<String> attendees = new HashSet<>(request.getAttendees());
+    Set<String> optionalAttendees = new HashSet<>(request.getOptionalAttendees());
+
     List<TimeRange> mandatoryTimes = eventsSet
       .stream()
-      .filter(event -> FindMeetingQuery.checkAttendees(event, request, false))
+      .filter(event -> FindMeetingQuery.matchesAttendees(event, attendees))
       .map(event -> event.getWhen())
       .collect(Collectors.toList());
 
     List<TimeRange> optionalTimes = eventsSet
       .stream()
-      .filter(event -> FindMeetingQuery.checkAttendees(event, request, true))
+      .filter(event -> FindMeetingQuery.matchesAttendees(event, attendees, optionalAttendees))
       .map(event -> event.getWhen())
       .collect(Collectors.toList());
 
@@ -62,25 +65,23 @@ public final class FindMeetingQuery {
     return optionalFreeTimes;
   }
 
-  private static boolean checkAttendees(Event event, MeetingRequest request, boolean checkOptional) {
+  private static boolean matchesAttendees(Event event, Set<String> requestedAttendees) {
     Set<String> attendees = new HashSet<>(event.getAttendees());
-    Set<String> requested = new HashSet<>(request.getAttendees());
-
-    for (String person: requested) {
+    for (String person: requestedAttendees) {
       if (attendees.contains(person)) {
         return true;
       }
     }
     
-    if (checkOptional) {
-      Set<String> optional = new HashSet<>(request.getOptionalAttendees());
-      for (String person: optional) {
-        if (attendees.contains(person))
-          return true;
-      }
+    return false;
+  }
+
+  private static boolean matchesAttendees(Event event, Set<String> requestedAttendees, Set<String> optionalAttendees) {
+    if (matchesAttendees(event, requestedAttendees)) {
+      return true;
     }
 
-    return false;
+    return matchesAttendees(event, optionalAttendees);
   }
 
   private static List<TimeRange> findFreeTimes(List<TimeRange> events, long meetingDuration) {
